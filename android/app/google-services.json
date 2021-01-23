@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "213175848577",
+    "project_id": "tabatapp-659ec",
+    "storage_bucket": "tabatapp-659ec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213175848577:android:2e1affd7b5d46b5384c780",
+        "android_client_info": {
+          "package_name": "com.example.tabatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "213175848577-hmlq1sdlq4mkfs78e6to1hhgb54tcvdg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7l-AkTa92DgEct08KlyVk5D0JEQMLubo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "213175848577-hmlq1sdlq4mkfs78e6to1hhgb54tcvdg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
