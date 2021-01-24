@@ -27,7 +27,7 @@ class _ControlsState extends State<Controls> {
                 context: context,
                 builder: (_) => AlertDialog(
                       title: Text(
-                          'Etes-vous sur de vouloir supprimer cet entrainement ?'),
+                          'Etes-vous sûr de vouloir supprimer cet entraînement ?'),
                       actions: [
                         FlatButton(
                           child: Text('Annuler'),
@@ -37,12 +37,10 @@ class _ControlsState extends State<Controls> {
                         ),
                         FlatButton(
                           child: Text('Confirmer'),
-                          onPressed: () {
-                            context
-                                .read(trainingsProvider)
-                                .remove(widget.training.id);
+                          onPressed: () async {
+                            await widget.training.remove();
                             Navigator.pop(context);
-                            Navigator.pop(context);
+                            Navigator.pop(context, true);
                           },
                         )
                       ],

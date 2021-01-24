@@ -26,16 +26,16 @@ class _TrainingScreenState extends State<TrainingScreen>
     setState(() {
       final training = widget.training;
       tasks = [Task('Preparation', training.prepare, Colors.cyan)];
-      for (int c in List.generate(training.nbCycle, (i) => i)) {
+      for (int c in List.generate(training.nbCycles, (i) => i)) {
         for (int i in List.generate(training.nbSeries, (i) => i)) {
           tasks = [
             ...tasks,
-            Task('Exercice', training.timeSerie, Colors.blue),
+            Task('Exercice', training.serieDuration, Colors.blue),
             if (i < training.nbSeries - 1)
               Task('Repos', training.rest, Colors.green)
           ];
         }
-        if (c < training.nbCycle - 1)
+        if (c < training.nbCycles - 1)
           tasks = [...tasks, Task('Repos', training.rest * 2, Colors.green)];
       }
     });
@@ -49,6 +49,21 @@ class _TrainingScreenState extends State<TrainingScreen>
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           if (current + 1 >= tasks.length) {
+            showDialog(
+                context: context,
+                builder: (_) {
+                  return AlertDialog(
+                      content: Text('Entraînements fini !'),
+                      actions: [
+                        FlatButton(
+                          child: Text('Fermer'),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          },
+                        )
+                      ]);
+                });
             return;
           }
           current += 1;
@@ -82,7 +97,7 @@ class _TrainingScreenState extends State<TrainingScreen>
                 size: Size(300, 300),
                 task: tasks[current],
                 controller: controller),
-            Expanded(child: Preview(tasks: tasks.skip(current).toList())),
+            Preview(tasks: tasks.skip(current).toList()),
             Controls(
               training: widget.training,
               controller: this.controller,

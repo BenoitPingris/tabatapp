@@ -13,8 +13,12 @@ class StatsScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Image(
+              image: AssetImage('assets/building_blocks.png'),
+            ),
             Text(
-              'stats',
+              'En cours',
+              style: Theme.of(context).textTheme.headline6,
             ),
           ],
         ),

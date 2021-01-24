@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tabatapp/models/training.dart';
 import 'package:tabatapp/widgets/appbar.dart';
 import 'package:tabatapp/widgets/card_tile.dart';
 
@@ -25,8 +26,8 @@ class MenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var entries = [
-      {'name': 'Entrainements', 'to': '/trainings', 'icon': Icons.run_circle},
-      {'name': 'Creer', 'to': '/create', 'icon': Icons.create},
+      {'name': 'Entraînements', 'to': '/trainings', 'icon': Icons.run_circle},
+      {'name': 'Créer', 'to': '/create', 'icon': Icons.create},
       {'name': 'Statistiques', 'to': '/stats', 'icon': Icons.bar_chart},
     ];
     return Scaffold(

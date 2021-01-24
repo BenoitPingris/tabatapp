@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabatapp/models/training.dart';
-import 'package:tabatapp/store/trainings.dart';
 import 'package:tabatapp/widgets/appbar.dart';
 
 class CreateScreen extends StatefulWidget {
@@ -12,11 +11,11 @@ class CreateScreen extends StatefulWidget {
 }
 
 class CreateScreenState extends State<CreateScreen> {
-  String name = "Mon super entrainement";
+  String name = "Mon super entraînement";
   int prepare = 20;
   int nbSeries = 5;
-  int timeSerie = 30;
-  int nbCycle = 1;
+  int serieDuration = 30;
+  int nbCycles = 1;
   int rest = 25;
 
   Widget _buildField(
@@ -43,11 +42,10 @@ class CreateScreenState extends State<CreateScreen> {
 
     return Scaffold(
         appBar: CustomAppBar(
-          title: 'Creer un nouvel entrainement',
+          title: 'Créer un nouvel entraînement',
         ),
         body: Consumer(
           builder: (ctx, watch, _) {
-            final trainings = watch(trainingsProvider.state);
             return Padding(
                 padding: EdgeInsets.all(10),
                 child: Form(
@@ -68,38 +66,41 @@ class CreateScreenState extends State<CreateScreen> {
                             name = v;
                           },
                         ),
-                        _buildField('Preparation', prepare, (v) {
+                        _buildField('Préparation', prepare, (v) {
                           prepare = v;
                         }),
-                        _buildField('Nombre de serie', nbSeries, (v) {
+                        _buildField('Nombre de série', nbSeries, (v) {
                           nbSeries = v;
                         }),
-                        _buildField('Duree d\'une serie', timeSerie, (v) {
-                          timeSerie = v;
+                        _buildField('Durée d\'une série', serieDuration, (v) {
+                          serieDuration = v;
                         }),
-                        _buildField('Nombre de cycle', nbCycle, (v) {
-                          nbCycle = v;
+                        _buildField('Nombre de cycle', nbCycles, (v) {
+                          nbCycles = v;
                         }),
                         _buildField('Repos', rest, (v) {
                           rest = v;
                         }),
-                        ElevatedButton(
-                          onPressed: () {
+                        ElevatedButton.icon(
+                          onPressed: () async {
                             if (_formKey.currentState.validate()) {
                               _formKey.currentState.save();
-                              context.read(trainingsProvider).add(Training(
+                              var t = Training(
                                   name: name,
                                   rest: rest,
                                   prepare: prepare,
                                   nbSeries: nbSeries,
-                                  timeSerie: timeSerie,
-                                  nbCycle: nbCycle));
+                                  serieDuration: serieDuration,
+                                  nbCycles: nbCycles);
+                              await t.create();
                               Scaffold.of(ctx).showSnackBar(SnackBar(
-                                content: Text('$name a ete cree !'),
+                                content: Text('$name a été crée !'),
                               ));
+                              Navigator.pushNamed(context, '/trainings');
                             }
                           },
-                          child: Text('Creer'),
+                          icon: Icon(Icons.add),
+                          label: Text('Créer'),
                         )
                       ],
                     ),
