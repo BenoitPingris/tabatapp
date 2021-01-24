@@ -1,76 +1,98 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-class Clock extends StatefulWidget {
-  @override
-  _ClockState createState() => _ClockState();
-}
+import 'package:tabatapp/models/task.dart';
 
-class _ClockState extends State<Clock> {
-  double angle = -90;
-  Timer _timer;
-  @override
-  void initState() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        angle += 45;
-        angle = angle % 360;
-      });
-    });
-    super.initState();
-  }
+class Clock extends StatelessWidget {
+  final Size size;
+  final Task task;
+  final AnimationController controller;
 
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
-
+  const Clock({Key key, this.size, this.controller, this.task})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Container(
-        height: 100,
-        width: 100,
-        child: CustomPaint(
-          painter: ClockPainter(angle),
-        ),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Center(
+        child: Column(children: [
+          Container(
+            height: size.height,
+            width: size.width,
+            child: AnimatedBuilder(
+              animation: controller,
+              builder: (_, __) {
+                return Stack(
+                  alignment: AlignmentDirectional.center,
+                  children: [
+                    Container(
+                      width: size.width,
+                      height: size.height,
+                      child: CustomPaint(
+                          painter: ClockPainter(
+                              controller, Colors.black26, Colors.blue[800])),
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        buildReminding(),
+                        Text(
+                          task.title,
+                          style: TextStyle(
+                              fontSize: 20, fontStyle: FontStyle.italic),
+                        )
+                      ],
+                    )
+                  ],
+                );
+              },
+            ),
+          ),
+        ]),
       ),
+    );
+  }
+
+  Widget buildReminding() {
+    var reminding = task.duration - (controller.value * task.duration);
+    return Text(
+      reminding.toStringAsFixed(0),
+      style: TextStyle(
+          fontSize: 44,
+          fontWeight: FontWeight.w300,
+          color: Color.lerp(Colors.black, Colors.red[600], controller.value)),
     );
   }
 }
 
 class ClockPainter extends CustomPainter {
-  final double angle;
+  final Animation<double> animation;
+  final Color backgroundColor, color;
 
-  ClockPainter(this.angle);
+  ClockPainter(this.animation, this.backgroundColor, this.color)
+      : super(repaint: animation);
+
   @override
   void paint(Canvas canvas, Size size) {
-    var centerX = size.width / 2;
-    var centerY = size.height / 2;
-    var center = Offset(centerX, centerY);
-    var radius = min(centerX, centerY);
-    var outlineBrush = Paint()
-      ..strokeWidth = 3
+    Paint paint = Paint()
+      ..color = backgroundColor
+      ..strokeWidth = 10.0
+      ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
-    var timeBrush = Paint()
-      ..strokeWidth = 4
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round;
-
-    var hourX = centerX + radius / 1.5 * cos(angle * pi / 180);
-    var hourY = centerX + radius / 1.5 * sin(angle * pi / 180);
-    canvas.drawLine(center, Offset(hourX, hourY), timeBrush);
-    canvas.drawCircle(
-        center, radius - outlineBrush.strokeWidth / 2, outlineBrush);
-    canvas.drawCircle(center, 5, outlineBrush..style = PaintingStyle.fill);
+    canvas.drawCircle(size.center(Offset.zero),
+        size.width / 2.0 - paint.strokeWidth / 2, paint);
+    paint.color = color;
+    double progress = (animation.value) * 2 * pi;
+    var o = Offset.zero & size;
+    canvas.drawArc(
+        o.deflate(paint.strokeWidth / 2), pi * 1.5, -progress, false, paint);
   }
 
   @override
-  bool shouldRepaint(CustomPainter old) {
-    return true;
+  bool shouldRepaint(covariant ClockPainter old) {
+    return animation.value != old.animation.value ||
+        color != old.color ||
+        backgroundColor != old.backgroundColor;
   }
 }
