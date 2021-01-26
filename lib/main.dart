@@ -35,9 +35,7 @@ class MyApp extends StatelessWidget {
         '/workouts': (context) => WorkoutsScreen(),
         '/stats': (context) => StatsScreen(),
       },
-      theme: ThemeData(
-        primarySwatch: Colors.teal,
-      ),
+      theme: ThemeData(primarySwatch: Colors.brown),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,

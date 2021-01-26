@@ -19,7 +19,9 @@ class RoundedIcon extends StatelessWidget {
             shape: BoxShape.circle,
             border: Border.all(color: enable ? blue : disabled, width: 2.0)),
         child: IconButton(
+            padding: EdgeInsets.all(2),
             iconSize: 30,
+            constraints: BoxConstraints(),
             color: blue,
             icon: Icon(icon),
             onPressed: enable ? onPressed : null));
@@ -47,7 +49,7 @@ class NumberInput extends StatelessWidget {
       children: [
         Text(
           label,
-          style: TextStyle(fontSize: 20),
+          style: TextStyle(fontSize: 18),
         ),
         SizedBox(
           height: 5,
@@ -68,7 +70,7 @@ class NumberInput extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .headline5
-                        .copyWith(fontWeight: FontWeight.w700, fontSize: 30),
+                        .copyWith(fontWeight: FontWeight.w700, fontSize: 26),
                   )),
             ),
             RoundedIcon(
@@ -83,8 +85,8 @@ class NumberInput extends StatelessWidget {
           Container(
             width: double.infinity,
             height: 1,
-            margin: EdgeInsets.symmetric(vertical: 10),
-            color: Colors.blue[900],
+            margin: EdgeInsets.symmetric(vertical: 15),
+            color: Colors.grey[400],
           )
       ],
     );

@@ -20,6 +20,12 @@ class CreateScreenState extends State<CreateScreen> {
   int nbCycles = 1;
   int rest = 25;
 
+  Widget _buildNumber(
+      String label, String value, bool enable, Function(int) fn) {
+    return NumberInput(
+        label: label, value: value, enable: [enable, true], notify: fn);
+  }
+
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
@@ -40,14 +46,16 @@ class CreateScreenState extends State<CreateScreen> {
                         Text(
                           'name'.i18n,
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                           ),
                         ),
                         SizedBox(
-                          height: 7,
+                          height: 10,
                         ),
                         TextFormField(
                           decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 10),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
@@ -64,64 +72,44 @@ class CreateScreenState extends State<CreateScreen> {
                           },
                         ),
                         SizedBox(
-                          height: 5,
+                          height: 10,
                         ),
-                        NumberInput(
-                          label: 'preparation'.i18n,
-                          value: '$prepare sec.',
-                          enable: [prepare > 1, true],
-                          notify: (i) {
-                            if (prepare + i > 0)
-                              setState(() {
-                                prepare += i;
-                              });
-                          },
-                        ),
-                        NumberInput(
-                          label: 'number series'.i18n,
-                          value: '$nbSeries',
-                          enable: [nbSeries > 1, true],
-                          notify: (i) {
-                            if (nbSeries + i > 0)
-                              setState(() {
-                                nbSeries += i;
-                              });
-                          },
-                        ),
-                        NumberInput(
-                          label: 'serie duration'.i18n,
-                          value: '$serieDuration sec.',
-                          enable: [serieDuration > 1, true],
-                          notify: (i) {
-                            if (serieDuration + i > 0)
-                              setState(() {
-                                serieDuration += i;
-                              });
-                          },
-                        ),
-                        NumberInput(
-                          label: 'number cycles'.i18n,
-                          value: '$nbCycles',
-                          enable: [nbCycles > 1, true],
-                          notify: (i) {
-                            if (nbCycles + i > 0)
-                              setState(() {
-                                nbCycles += i;
-                              });
-                          },
-                        ),
-                        NumberInput(
-                          label: 'rest'.i18n,
-                          value: '$rest sec.',
-                          enable: [rest > 1, true],
-                          separator: false,
-                          notify: (i) {
-                            if (rest + i > 0)
-                              setState(() {
-                                rest += i;
-                              });
-                          },
-                        ),
+                        _buildNumber(
+                            'preparation'.i18n, '$prepare sec.', prepare > 1,
+                            (i) {
+                          if (prepare + i > 0)
+                            setState(() {
+                              prepare += i;
+                            });
+                        }),
+                        _buildNumber('number series'.i18n, '$nbSeries sec.',
+                            nbSeries > 1, (i) {
+                          if (nbSeries + i > 0)
+                            setState(() {
+                              nbSeries += i;
+                            });
+                        }),
+                        _buildNumber('serie duration'.i18n,
+                            '$serieDuration sec.', serieDuration > 1, (i) {
+                          if (serieDuration + i > 0)
+                            setState(() {
+                              serieDuration += i;
+                            });
+                        }),
+                        _buildNumber(
+                            'number cycles'.i18n, '$nbCycles', nbCycles > 1,
+                            (i) {
+                          if (nbCycles + i > 0)
+                            setState(() {
+                              nbCycles += i;
+                            });
+                        }),
+                        _buildNumber('rest'.i18n, '$rest sec.', rest > 1, (i) {
+                          if (rest + i > 0)
+                            setState(() {
+                              rest += i;
+                            });
+                        }),
                         SizedBox(height: 10),
                         ElevatedButton.icon(
                           onPressed: () async {
