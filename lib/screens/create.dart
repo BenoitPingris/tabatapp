@@ -82,8 +82,9 @@ class CreateScreenState extends State<CreateScreen> {
                               prepare += i;
                             });
                         }),
-                        _buildNumber('number series'.i18n, '$nbSeries sec.',
-                            nbSeries > 1, (i) {
+                        _buildNumber(
+                            'number series'.i18n, '$nbSeries', nbSeries > 1,
+                            (i) {
                           if (nbSeries + i > 0)
                             setState(() {
                               nbSeries += i;

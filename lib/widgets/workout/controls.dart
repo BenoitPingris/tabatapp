@@ -6,7 +6,7 @@ class Controls extends StatefulWidget {
   final Workout workout;
   final AnimationController controller;
 
-  Controls({this.workout, this.controller, Key key}) : super(key: key);
+  const Controls({Key key, this.workout, this.controller}) : super(key: key);
 
   @override
   _ControlsState createState() => _ControlsState();
