@@ -93,7 +93,7 @@ class _WorkoutScreenState extends State<WorkoutScreen>
         title: widget.workout.name,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(15.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

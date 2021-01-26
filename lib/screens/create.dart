@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_translate/global.dart';
 import 'package:tabatapp/models/workout.dart';
 import 'package:tabatapp/widgets/appbar.dart';
+import 'package:tabatapp/widgets/create/number_input.dart';
 
 class CreateScreen extends StatefulWidget {
   @override
@@ -48,15 +49,27 @@ class CreateScreenState extends State<CreateScreen> {
         body: Consumer(
           builder: (ctx, watch, _) {
             return Padding(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.symmetric(horizontal: 15),
                 child: Form(
                   key: _formKey,
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
+                        Text(
+                          translate('name'),
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 7,
+                        ),
                         TextFormField(
-                          decoration:
-                              InputDecoration(labelText: translate('name')),
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
                           initialValue: name,
                           validator: (v) {
                             if (v.isEmpty) {
@@ -68,22 +81,66 @@ class CreateScreenState extends State<CreateScreen> {
                             name = v;
                           },
                         ),
-                        _buildField(translate('preparation'), prepare, (v) {
-                          prepare = v;
-                        }),
-                        _buildField(translate('number series'), nbSeries, (v) {
-                          nbSeries = v;
-                        }),
-                        _buildField(translate('serie duration'), serieDuration,
-                            (v) {
-                          serieDuration = v;
-                        }),
-                        _buildField(translate('number cycles'), nbCycles, (v) {
-                          nbCycles = v;
-                        }),
-                        _buildField(translate('rest'), rest, (v) {
-                          rest = v;
-                        }),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        NumberInput(
+                          label: translate('preparation'),
+                          value: '$prepare sec.',
+                          enable: [prepare > 1, true],
+                          notify: (i) {
+                            if (prepare + i > 0)
+                              setState(() {
+                                prepare += i;
+                              });
+                          },
+                        ),
+                        NumberInput(
+                          label: translate('number series'),
+                          value: '$nbSeries',
+                          enable: [nbSeries > 1, true],
+                          notify: (i) {
+                            if (nbSeries + i > 0)
+                              setState(() {
+                                nbSeries += i;
+                              });
+                          },
+                        ),
+                        NumberInput(
+                          label: translate('serie duration'),
+                          value: '$serieDuration sec.',
+                          enable: [serieDuration > 1, true],
+                          notify: (i) {
+                            if (serieDuration + i > 0)
+                              setState(() {
+                                serieDuration += i;
+                              });
+                          },
+                        ),
+                        NumberInput(
+                          label: translate('number cycles'),
+                          value: '$nbCycles',
+                          enable: [nbCycles > 1, true],
+                          notify: (i) {
+                            if (nbCycles + i > 0)
+                              setState(() {
+                                nbCycles += i;
+                              });
+                          },
+                        ),
+                        NumberInput(
+                          label: translate('rest'),
+                          value: '$rest sec.',
+                          enable: [rest > 1, true],
+                          separator: false,
+                          notify: (i) {
+                            if (rest + i > 0)
+                              setState(() {
+                                rest += i;
+                              });
+                          },
+                        ),
+                        SizedBox(height: 10),
                         ElevatedButton.icon(
                           onPressed: () async {
                             if (_formKey.currentState.validate()) {

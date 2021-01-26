@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         '/stats': (context) => StatsScreen(),
       },
       theme: ThemeData(
-        primarySwatch: Colors.brown,
+        primarySwatch: Colors.teal,
       ),
       debugShowCheckedModeBanner: false,
     );

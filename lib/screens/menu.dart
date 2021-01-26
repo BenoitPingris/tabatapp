@@ -24,25 +24,35 @@ class MenuScreen extends StatelessWidget {
           title: 'Tabatapp',
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: ListView.separated(
-            itemCount: entries.length,
-            separatorBuilder: (context, i) {
-              return SizedBox(height: 10);
-            },
-            itemBuilder: (context, i) {
-              var entry = entries[i];
-              return CardTile(
-                onTap: () {
-                  Navigator.pushNamed(context, entry['to']);
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Column(children: [
+            Expanded(
+              child: ListView.separated(
+                itemCount: entries.length,
+                separatorBuilder: (context, i) {
+                  return SizedBox(height: 10);
                 },
-                leading: entry['icon'],
-                trailing:
-                    Icon(Icons.arrow_right, color: Colors.white, size: 30),
-                title: entry['name'],
-              );
-            },
-          ),
+                itemBuilder: (context, i) {
+                  var entry = entries[i];
+                  return CardTile(
+                    onTap: () {
+                      Navigator.pushNamed(context, entry['to']);
+                    },
+                    leading: entry['icon'],
+                    trailing:
+                        Icon(Icons.arrow_right, color: Colors.white, size: 30),
+                    title: entry['name'],
+                  );
+                },
+              ),
+            ),
+            FlatButton(
+                onPressed: () {
+                  showAboutDialog(
+                      context: context, applicationVersion: '1.0.0');
+                },
+                child: Text(translate('more info')))
+          ]),
         ));
   }
 

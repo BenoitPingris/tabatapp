@@ -33,7 +33,7 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
         title: translate('workouts'),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Builder(builder: (_) {
           if (workouts.isEmpty) {
             return Center(
@@ -43,7 +43,7 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
                 Image(image: AssetImage('assets/empty.png')),
                 Container(
                   child: Text(
-                    translate('no workout created'),
+                    translate('no workouts created'),
                     style: Theme.of(context).textTheme.subtitle1,
                   ),
                 ),
