@@ -1,22 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/global.dart';
 import 'package:tabatapp/models/task.dart';
 import 'package:tabatapp/widgets/appbar.dart';
-import 'package:tabatapp/widgets/training/clock.dart';
-import 'package:tabatapp/widgets/training/controls.dart';
-import 'package:tabatapp/widgets/training/preview.dart';
-import 'package:tabatapp/models/training.dart';
+import 'package:tabatapp/widgets/workout/clock.dart';
+import 'package:tabatapp/widgets/workout/controls.dart';
+import 'package:tabatapp/widgets/workout/preview.dart';
+import 'package:tabatapp/models/workout.dart';
 
-class TrainingScreen extends StatefulWidget {
-  final Training training;
+class WorkoutScreen extends StatefulWidget {
+  final Workout workout;
 
-  const TrainingScreen({Key key, @required this.training}) : super(key: key);
+  const WorkoutScreen({Key key, @required this.workout}) : super(key: key);
 
   @override
-  _TrainingScreenState createState() => _TrainingScreenState();
+  _WorkoutScreenState createState() => _WorkoutScreenState();
 }
 
-class _TrainingScreenState extends State<TrainingScreen>
+class _WorkoutScreenState extends State<WorkoutScreen>
     with TickerProviderStateMixin {
   AnimationController controller;
   List<Task> tasks = [];
@@ -24,19 +25,22 @@ class _TrainingScreenState extends State<TrainingScreen>
 
   void generateTasks() {
     setState(() {
-      final training = widget.training;
-      tasks = [Task('Preparation', training.prepare, Colors.cyan)];
-      for (int c in List.generate(training.nbCycles, (i) => i)) {
-        for (int i in List.generate(training.nbSeries, (i) => i)) {
+      final workout = widget.workout;
+      tasks = [Task(translate('preparation'), workout.prepare, Colors.cyan)];
+      for (int c in List.generate(workout.nbCycles, (i) => i)) {
+        for (int i in List.generate(workout.nbSeries, (i) => i)) {
           tasks = [
             ...tasks,
-            Task('Exercice', training.serieDuration, Colors.blue),
-            if (i < training.nbSeries - 1)
-              Task('Repos', training.rest, Colors.green)
+            Task(translate('exercise'), workout.serieDuration, Colors.blue),
+            if (i < workout.nbSeries - 1)
+              Task(translate('rest'), workout.rest, Colors.green)
           ];
         }
-        if (c < training.nbCycles - 1)
-          tasks = [...tasks, Task('Repos', training.rest * 2, Colors.green)];
+        if (c < workout.nbCycles - 1)
+          tasks = [
+            ...tasks,
+            Task(translate('rest'), workout.rest * 2, Colors.green)
+          ];
       }
     });
   }
@@ -53,10 +57,10 @@ class _TrainingScreenState extends State<TrainingScreen>
                 context: context,
                 builder: (_) {
                   return AlertDialog(
-                      content: Text('Entraînements fini !'),
+                      content: Text(translate('workout finished')),
                       actions: [
                         FlatButton(
-                          child: Text('Fermer'),
+                          child: Text(translate('close')),
                           onPressed: () {
                             Navigator.pop(context);
                             Navigator.pop(context);
@@ -86,7 +90,7 @@ class _TrainingScreenState extends State<TrainingScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: widget.training.name,
+        title: widget.workout.name,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -99,7 +103,7 @@ class _TrainingScreenState extends State<TrainingScreen>
                 controller: controller),
             Preview(tasks: tasks.skip(current).toList()),
             Controls(
-              training: widget.training,
+              workout: widget.workout,
               controller: this.controller,
             )
           ],

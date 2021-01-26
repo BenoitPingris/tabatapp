@@ -2,7 +2,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:tabatapp/services/database.dart';
 import 'package:tabatapp/utils/id.dart';
 
-class Training {
+class Workout {
   final String name;
   final int prepare;
   final int nbSeries;
@@ -11,7 +11,7 @@ class Training {
   final int rest;
   String id;
 
-  static final String _tableName = 'training';
+  static final String _tableName = 'workout';
   static final String _columnId = '_id';
   static final String _columnTitle = 'title';
   static final String _columnRest = 'rest';
@@ -20,7 +20,7 @@ class Training {
   static final String _columnNbCycles = 'nb_cycles';
   static final String _columnSerieDuration = 'serie_duration';
 
-  Training(
+  Workout(
       {this.name,
       this.prepare,
       this.nbSeries,
@@ -46,8 +46,8 @@ class Training {
     )''');
   }
 
-  factory Training.fromJson(Map<String, dynamic> json) {
-    return Training(
+  factory Workout.fromJson(Map<String, dynamic> json) {
+    return Workout(
         name: json[_columnTitle],
         prepare: json[_columnPrepare],
         rest: json[_columnRest],
@@ -57,10 +57,10 @@ class Training {
         id: json[_columnId]);
   }
 
-  static Future<List<Training>> fetch() async {
+  static Future<List<Workout>> fetch() async {
     var db = await DatabaseHelper.instance.database;
     var res = await db.query(_tableName);
-    return res.map((i) => Training.fromJson(i)).toList();
+    return res.map((i) => Workout.fromJson(i)).toList();
   }
 
   Future create() async {

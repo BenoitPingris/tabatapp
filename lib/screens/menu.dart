@@ -1,38 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:tabatapp/models/training.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:tabatapp/widgets/appbar.dart';
 import 'package:tabatapp/widgets/card_tile.dart';
 
 class MenuScreen extends StatelessWidget {
-  Widget buildTile(entry) {
-    return ListTile(
-        leading: Container(
-          padding: EdgeInsets.only(right: 12.0),
-          decoration: BoxDecoration(
-              border:
-                  Border(right: BorderSide(width: 1.0, color: Colors.white24))),
-          child: Icon(entry['icon'], color: Colors.white),
-        ),
-        title: Text(
-          entry['name'],
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        trailing:
-            Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0));
-  }
-
   @override
   Widget build(BuildContext context) {
     var entries = [
-      {'name': 'Entraînements', 'to': '/trainings', 'icon': Icons.run_circle},
-      {'name': 'Créer', 'to': '/create', 'icon': Icons.create},
-      {'name': 'Statistiques', 'to': '/stats', 'icon': Icons.bar_chart},
+      {
+        'name': translate('workouts'),
+        'to': '/workouts',
+        'icon': Icons.run_circle
+      },
+      {'name': translate('create'), 'to': '/create', 'icon': Icons.create},
+      {
+        'name': translate('statistics'),
+        'to': '/stats',
+        'icon': Icons.bar_chart
+      },
     ];
     return Scaffold(
         appBar: CustomAppBar(
-          title: 'Menu',
+          title: 'Tabatapp',
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -55,5 +44,24 @@ class MenuScreen extends StatelessWidget {
             },
           ),
         ));
+  }
+
+  Widget buildTile(entry) {
+    return ListTile(
+        leading: Container(
+          padding: EdgeInsets.only(right: 12.0),
+          decoration: BoxDecoration(
+              border:
+                  Border(right: BorderSide(width: 1.0, color: Colors.white24))),
+          child: Icon(entry['icon'], color: Colors.white),
+        ),
+        title: Text(
+          entry['name'],
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        trailing:
+            Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0));
   }
 }

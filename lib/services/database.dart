@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:tabatapp/models/training.dart';
+import 'package:tabatapp/models/workout.dart';
 
 class DatabaseHelper {
   static final String _dbName = 'tabatapp.sqlite';
@@ -26,6 +26,6 @@ class DatabaseHelper {
   }
 
   Future _onCreate(Database db, int version) async {
-    Training.onCreate(db, version);
+    Workout.onCreate(db, version);
   }
 }

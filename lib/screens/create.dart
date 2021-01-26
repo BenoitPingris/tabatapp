@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabatapp/models/training.dart';
+import 'package:flutter_translate/global.dart';
+import 'package:tabatapp/models/workout.dart';
 import 'package:tabatapp/widgets/appbar.dart';
 
 class CreateScreen extends StatefulWidget {
@@ -11,7 +12,7 @@ class CreateScreen extends StatefulWidget {
 }
 
 class CreateScreenState extends State<CreateScreen> {
-  String name = "Mon super entraînement";
+  String name = translate("placeholder name");
   int prepare = 20;
   int nbSeries = 5;
   int serieDuration = 30;
@@ -26,7 +27,7 @@ class CreateScreenState extends State<CreateScreen> {
       initialValue: initialValue.toString(),
       validator: (v) {
         if (v.isEmpty) {
-          return 'Veuillez renseigner ce champ';
+          return translate('fill in the field');
         }
         return null;
       },
@@ -42,7 +43,7 @@ class CreateScreenState extends State<CreateScreen> {
 
     return Scaffold(
         appBar: CustomAppBar(
-          title: 'Créer un nouvel entraînement',
+          title: translate('create new workout'),
         ),
         body: Consumer(
           builder: (ctx, watch, _) {
@@ -54,11 +55,12 @@ class CreateScreenState extends State<CreateScreen> {
                     child: Column(
                       children: [
                         TextFormField(
-                          decoration: InputDecoration(labelText: 'Nom'),
+                          decoration:
+                              InputDecoration(labelText: translate('name')),
                           initialValue: name,
                           validator: (v) {
                             if (v.isEmpty) {
-                              return 'Veuillez renseigner ce champ';
+                              return translate('fill in the field');
                             }
                             return null;
                           },
@@ -66,26 +68,27 @@ class CreateScreenState extends State<CreateScreen> {
                             name = v;
                           },
                         ),
-                        _buildField('Préparation', prepare, (v) {
+                        _buildField(translate('preparation'), prepare, (v) {
                           prepare = v;
                         }),
-                        _buildField('Nombre de série', nbSeries, (v) {
+                        _buildField(translate('number series'), nbSeries, (v) {
                           nbSeries = v;
                         }),
-                        _buildField('Durée d\'une série', serieDuration, (v) {
+                        _buildField(translate('serie duration'), serieDuration,
+                            (v) {
                           serieDuration = v;
                         }),
-                        _buildField('Nombre de cycle', nbCycles, (v) {
+                        _buildField(translate('number cycles'), nbCycles, (v) {
                           nbCycles = v;
                         }),
-                        _buildField('Repos', rest, (v) {
+                        _buildField(translate('rest'), rest, (v) {
                           rest = v;
                         }),
                         ElevatedButton.icon(
                           onPressed: () async {
                             if (_formKey.currentState.validate()) {
                               _formKey.currentState.save();
-                              var t = Training(
+                              var t = Workout(
                                   name: name,
                                   rest: rest,
                                   prepare: prepare,
@@ -94,13 +97,14 @@ class CreateScreenState extends State<CreateScreen> {
                                   nbCycles: nbCycles);
                               await t.create();
                               Scaffold.of(ctx).showSnackBar(SnackBar(
-                                content: Text('$name a été crée !'),
+                                content: Text(translate('workout created',
+                                    args: {'name': name})),
                               ));
-                              Navigator.pushNamed(context, '/trainings');
+                              Navigator.pushNamed(context, '/workouts');
                             }
                           },
                           icon: Icon(Icons.add),
-                          label: Text('Créer'),
+                          label: Text(translate('create')),
                         )
                       ],
                     ),

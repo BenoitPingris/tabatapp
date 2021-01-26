@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tabatapp/models/task.dart';
-import 'package:tabatapp/widgets/training/preview_card.dart';
+import 'package:tabatapp/widgets/workout/preview_card.dart';
 
 class Preview extends StatelessWidget {
   final List<Task> tasks;

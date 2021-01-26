@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/global.dart';
 import 'package:tabatapp/widgets/appbar.dart';
 
 class StatsScreen extends StatelessWidget {
@@ -7,7 +8,7 @@ class StatsScreen extends StatelessWidget {
     // TODO: implement build
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Stats',
+        title: translate('statistics'),
       ),
       body: Center(
         child: Column(
@@ -17,7 +18,7 @@ class StatsScreen extends StatelessWidget {
               image: AssetImage('assets/building_blocks.png'),
             ),
             Text(
-              'En cours',
+              translate('in progress'),
               style: Theme.of(context).textTheme.headline6,
             ),
           ],

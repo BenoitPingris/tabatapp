@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabatapp/models/training.dart';
-import 'package:tabatapp/screens/training.dart';
-import 'package:tabatapp/store/trainings.dart';
+import 'package:flutter_translate/global.dart';
+import 'package:tabatapp/models/workout.dart';
+import 'package:tabatapp/screens/workout.dart';
 import 'package:tabatapp/widgets/appbar.dart';
 import 'package:tabatapp/widgets/card_tile.dart';
 
-class TrainingsScreen extends StatefulWidget {
+class WorkoutsScreen extends StatefulWidget {
   @override
-  _TrainingsScreenState createState() => _TrainingsScreenState();
+  _WorkoutsScreenState createState() => _WorkoutsScreenState();
 }
 
-class _TrainingsScreenState extends State<TrainingsScreen> {
-  List<Training> trainings = [];
-  fetchTrainings() {
-    Training.fetch().then((d) {
+class _WorkoutsScreenState extends State<WorkoutsScreen> {
+  List<Workout> workouts = [];
+  fetchWorkouts() {
+    Workout.fetch().then((d) {
       setState(() {
-        trainings = d;
+        workouts = d;
       });
     });
   }
 
   @override
   void initState() {
-    fetchTrainings();
+    fetchWorkouts();
     super.initState();
   }
 
@@ -31,12 +30,12 @@ class _TrainingsScreenState extends State<TrainingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Entraînements',
+        title: translate('workouts'),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Builder(builder: (_) {
-          if (trainings.isEmpty) {
+          if (workouts.isEmpty) {
             return Center(
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -44,13 +43,13 @@ class _TrainingsScreenState extends State<TrainingsScreen> {
                 Image(image: AssetImage('assets/empty.png')),
                 Container(
                   child: Text(
-                    'Vous n\'avez pas d\'entraînements crées !',
+                    translate('no workout created'),
                     style: Theme.of(context).textTheme.subtitle1,
                   ),
                 ),
                 ElevatedButton.icon(
                   icon: Icon(Icons.add),
-                  label: Text('Creer'),
+                  label: Text(translate('create')),
                   onPressed: () {
                     Navigator.pushNamed(context, '/create');
                   },
@@ -59,23 +58,23 @@ class _TrainingsScreenState extends State<TrainingsScreen> {
             ));
           }
           return ListView.separated(
-            itemCount: trainings.length,
+            itemCount: workouts.length,
             separatorBuilder: (context, _) {
               return SizedBox(height: 5);
             },
             itemBuilder: (context, i) {
-              var training = trainings[i];
+              var workout = workouts[i];
               return CardTile(
-                title: training.name,
-                subtitle: training.totalDuration(),
+                title: workout.name,
+                subtitle: workout.totalDuration(),
                 trailing: IconButton(
                   icon: Icon(
                     Icons.delete,
                     color: Colors.white70,
                   ),
                   onPressed: () async {
-                    await training.remove();
-                    fetchTrainings();
+                    await workout.remove();
+                    fetchWorkouts();
                   },
                 ),
                 onTap: () async {
@@ -83,8 +82,8 @@ class _TrainingsScreenState extends State<TrainingsScreen> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              TrainingScreen(training: training)));
-                  fetchTrainings();
+                              WorkoutScreen(workout: workout)));
+                  fetchWorkouts();
                 },
               );
             },

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabatapp/models/training.dart';
-import 'package:tabatapp/store/trainings.dart';
+import 'package:flutter_translate/global.dart';
+import 'package:tabatapp/models/workout.dart';
 
 class Controls extends StatefulWidget {
-  final Training training;
+  final Workout workout;
   final AnimationController controller;
 
-  Controls({this.training, this.controller, Key key}) : super(key: key);
+  Controls({this.workout, this.controller, Key key}) : super(key: key);
 
   @override
   _ControlsState createState() => _ControlsState();
@@ -21,24 +20,23 @@ class _ControlsState extends State<Controls> {
       children: [
         FlatButton.icon(
           icon: Icon(Icons.delete_sharp),
-          label: Text('Supprimer'),
+          label: Text(translate('delete')),
           onPressed: () {
             showDialog(
                 context: context,
                 builder: (_) => AlertDialog(
-                      title: Text(
-                          'Etes-vous sûr de vouloir supprimer cet entraînement ?'),
+                      title: Text(translate('sure to delete')),
                       actions: [
                         FlatButton(
-                          child: Text('Annuler'),
+                          child: Text(translate('cancel')),
                           onPressed: () {
                             Navigator.pop(context);
                           },
                         ),
                         FlatButton(
-                          child: Text('Confirmer'),
+                          child: Text(translate('confirm')),
                           onPressed: () async {
-                            await widget.training.remove();
+                            await widget.workout.remove();
                             Navigator.pop(context);
                             Navigator.pop(context, true);
                           },
@@ -62,8 +60,9 @@ class _ControlsState extends State<Controls> {
                   icon: Icon(widget.controller.isAnimating
                       ? Icons.pause
                       : Icons.play_arrow),
-                  label:
-                      Text(widget.controller.isAnimating ? "Pause" : "Lancer"));
+                  label: Text(widget.controller.isAnimating
+                      ? translate('pause')
+                      : translate('play')));
             }),
       ],
     );
