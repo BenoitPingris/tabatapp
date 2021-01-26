@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:i18n_extension/i18n_widget.dart';
 import 'package:tabatapp/i18n.dart';
 import 'package:tabatapp/screens/create.dart';
 import 'package:tabatapp/screens/menu.dart';
 import 'package:tabatapp/screens/stats.dart';
 import 'package:tabatapp/screens/workouts.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
-  var delegate = await LocalizationDelegate.create(
-      fallbackLocale: 'fr',
-      supportedLocales: ['fr', 'en'],
-      preferences: TranslatePreferences());
+  WidgetsFlutterBinding.ensureInitialized();
+  await loadTranslations();
+  //TODO fetch the saved locale and/or the device locale
   runApp(
-    LocalizedApp(
-      delegate,
-      ProviderScope(
+    ProviderScope(
+      child: I18n(
+        initialLocale: Locale('fr'),
         child: MyApp(),
       ),
     ),
@@ -39,6 +39,14 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.teal,
       ),
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('fr'),
+        const Locale('en'),
+      ],
     );
   }
 }

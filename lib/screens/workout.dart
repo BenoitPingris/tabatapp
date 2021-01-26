@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/global.dart';
 import 'package:tabatapp/models/task.dart';
 import 'package:tabatapp/widgets/appbar.dart';
 import 'package:tabatapp/widgets/workout/clock.dart';
 import 'package:tabatapp/widgets/workout/controls.dart';
 import 'package:tabatapp/widgets/workout/preview.dart';
 import 'package:tabatapp/models/workout.dart';
+import 'package:tabatapp/i18n.dart';
 
 class WorkoutScreen extends StatefulWidget {
   final Workout workout;
@@ -26,21 +26,18 @@ class _WorkoutScreenState extends State<WorkoutScreen>
   void generateTasks() {
     setState(() {
       final workout = widget.workout;
-      tasks = [Task(translate('preparation'), workout.prepare, Colors.cyan)];
+      tasks = [Task('preparation'.i18n, workout.prepare, Colors.cyan)];
       for (int c in List.generate(workout.nbCycles, (i) => i)) {
         for (int i in List.generate(workout.nbSeries, (i) => i)) {
           tasks = [
             ...tasks,
-            Task(translate('exercise'), workout.serieDuration, Colors.blue),
+            Task('exercise'.i18n, workout.serieDuration, Colors.blue),
             if (i < workout.nbSeries - 1)
-              Task(translate('rest'), workout.rest, Colors.green)
+              Task('rest'.i18n, workout.rest, Colors.green)
           ];
         }
         if (c < workout.nbCycles - 1)
-          tasks = [
-            ...tasks,
-            Task(translate('rest'), workout.rest * 2, Colors.green)
-          ];
+          tasks = [...tasks, Task('rest'.i18n, workout.rest * 2, Colors.green)];
       }
     });
   }
@@ -57,10 +54,10 @@ class _WorkoutScreenState extends State<WorkoutScreen>
                 context: context,
                 builder: (_) {
                   return AlertDialog(
-                      content: Text(translate('workout finished')),
+                      content: Text('workout finished'.i18n),
                       actions: [
                         FlatButton(
-                          child: Text(translate('close')),
+                          child: Text('close'.i18n),
                           onPressed: () {
                             Navigator.pop(context);
                             Navigator.pop(context);

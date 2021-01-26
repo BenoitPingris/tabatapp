@@ -1,22 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_translate/global.dart';
-import 'package:flutter_translate/translate_preferences.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:i18n_extension/i18n_extension.dart';
+import 'package:i18n_extension/io/import.dart';
 
-class TranslatePreferences implements ITranslatePreferences {
-  static const String _selectedLocaleKey = "selected_locale";
+Future<void> loadTranslations() async {
+  Localization._t = Translations.byLocale('en');
+  Localization._t += await JSONImporter().fromAssetDirectory("assets/i18n");
+}
 
-  @override
-  Future<Locale> getPreferredLocale() async {
-    final pref = await SharedPreferences.getInstance();
-    if (!pref.containsKey(_selectedLocaleKey)) return null;
+extension Localization on String {
+  static TranslationsByLocale _t;
 
-    return localeFromString(pref.getString(_selectedLocaleKey));
-  }
-
-  @override
-  Future savePreferredLocale(Locale locale) async {
-    final pref = await SharedPreferences.getInstance();
-    await pref.setString(_selectedLocaleKey, localeToString(locale));
-  }
+  String get i18n => localize(this, _t);
 }

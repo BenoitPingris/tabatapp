@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/global.dart';
 import 'package:tabatapp/models/workout.dart';
+import 'package:tabatapp/i18n.dart';
 
 class Controls extends StatefulWidget {
   final Workout workout;
@@ -20,21 +20,21 @@ class _ControlsState extends State<Controls> {
       children: [
         FlatButton.icon(
           icon: Icon(Icons.delete_sharp),
-          label: Text(translate('delete')),
+          label: Text('delete'.i18n),
           onPressed: () {
             showDialog(
                 context: context,
                 builder: (_) => AlertDialog(
-                      title: Text(translate('sure to delete')),
+                      title: Text('sure to delete'.i18n),
                       actions: [
                         FlatButton(
-                          child: Text(translate('cancel')),
+                          child: Text('cancel'.i18n),
                           onPressed: () {
                             Navigator.pop(context);
                           },
                         ),
                         FlatButton(
-                          child: Text(translate('confirm')),
+                          child: Text('confirm'.i18n),
                           onPressed: () async {
                             await widget.workout.remove();
                             Navigator.pop(context);
@@ -61,8 +61,8 @@ class _ControlsState extends State<Controls> {
                       ? Icons.pause
                       : Icons.play_arrow),
                   label: Text(widget.controller.isAnimating
-                      ? translate('pause')
-                      : translate('play')));
+                      ? 'pause'.i18n
+                      : 'play'.i18n));
             }),
       ],
     );

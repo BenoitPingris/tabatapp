@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/global.dart';
 import 'package:tabatapp/models/workout.dart';
 import 'package:tabatapp/screens/workout.dart';
 import 'package:tabatapp/widgets/appbar.dart';
 import 'package:tabatapp/widgets/card_tile.dart';
+import 'package:tabatapp/i18n.dart';
 
 class WorkoutsScreen extends StatefulWidget {
   @override
@@ -30,7 +30,7 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: translate('workouts'),
+        title: 'workouts'.i18n,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -43,13 +43,13 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
                 Image(image: AssetImage('assets/empty.png')),
                 Container(
                   child: Text(
-                    translate('no workouts created'),
+                    'no workouts created'.i18n,
                     style: Theme.of(context).textTheme.subtitle1,
                   ),
                 ),
                 ElevatedButton.icon(
                   icon: Icon(Icons.add),
-                  label: Text(translate('create')),
+                  label: Text('create'.i18n),
                   onPressed: () {
                     Navigator.pushNamed(context, '/create');
                   },

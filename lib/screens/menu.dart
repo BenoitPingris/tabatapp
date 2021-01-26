@@ -1,23 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_translate/flutter_translate.dart';
 import 'package:tabatapp/widgets/appbar.dart';
 import 'package:tabatapp/widgets/card_tile.dart';
+import 'package:tabatapp/i18n.dart';
 
 class MenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var entries = [
-      {
-        'name': translate('workouts'),
-        'to': '/workouts',
-        'icon': Icons.run_circle
-      },
-      {'name': translate('create'), 'to': '/create', 'icon': Icons.create},
-      {
-        'name': translate('statistics'),
-        'to': '/stats',
-        'icon': Icons.bar_chart
-      },
+      {'name': 'workouts'.i18n, 'to': '/workouts', 'icon': Icons.run_circle},
+      {'name': 'create'.i18n, 'to': '/create', 'icon': Icons.create},
+      {'name': 'statistics'.i18n, 'to': '/stats', 'icon': Icons.bar_chart},
     ];
     return Scaffold(
         appBar: CustomAppBar(
@@ -51,7 +43,7 @@ class MenuScreen extends StatelessWidget {
                   showAboutDialog(
                       context: context, applicationVersion: '1.0.0');
                 },
-                child: Text(translate('more info')))
+                child: Text('more info'.i18n))
           ]),
         ));
   }

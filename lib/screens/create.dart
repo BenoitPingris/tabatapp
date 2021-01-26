@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_translate/global.dart';
+import 'package:tabatapp/i18n.dart';
 import 'package:tabatapp/models/workout.dart';
 import 'package:tabatapp/widgets/appbar.dart';
 import 'package:tabatapp/widgets/create/number_input.dart';
@@ -13,30 +13,12 @@ class CreateScreen extends StatefulWidget {
 }
 
 class CreateScreenState extends State<CreateScreen> {
-  String name = translate("placeholder name");
+  String name = "placeholder name".i18n;
   int prepare = 20;
   int nbSeries = 5;
   int serieDuration = 30;
   int nbCycles = 1;
   int rest = 25;
-
-  Widget _buildField(
-      String labelText, int initialValue, void Function(int) onSaved) {
-    return TextFormField(
-      keyboardType: TextInputType.number,
-      decoration: InputDecoration(labelText: labelText),
-      initialValue: initialValue.toString(),
-      validator: (v) {
-        if (v.isEmpty) {
-          return translate('fill in the field');
-        }
-        return null;
-      },
-      onSaved: (String v) {
-        onSaved(int.parse(v));
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +26,7 @@ class CreateScreenState extends State<CreateScreen> {
 
     return Scaffold(
         appBar: CustomAppBar(
-          title: translate('create new workout'),
+          title: 'create new workout'.i18n,
         ),
         body: Consumer(
           builder: (ctx, watch, _) {
@@ -56,7 +38,7 @@ class CreateScreenState extends State<CreateScreen> {
                     child: Column(
                       children: [
                         Text(
-                          translate('name'),
+                          'name'.i18n,
                           style: TextStyle(
                             fontSize: 20,
                           ),
@@ -73,7 +55,7 @@ class CreateScreenState extends State<CreateScreen> {
                           initialValue: name,
                           validator: (v) {
                             if (v.isEmpty) {
-                              return translate('fill in the field');
+                              return 'fill in the field'.i18n;
                             }
                             return null;
                           },
@@ -85,7 +67,7 @@ class CreateScreenState extends State<CreateScreen> {
                           height: 5,
                         ),
                         NumberInput(
-                          label: translate('preparation'),
+                          label: 'preparation'.i18n,
                           value: '$prepare sec.',
                           enable: [prepare > 1, true],
                           notify: (i) {
@@ -96,7 +78,7 @@ class CreateScreenState extends State<CreateScreen> {
                           },
                         ),
                         NumberInput(
-                          label: translate('number series'),
+                          label: 'number series'.i18n,
                           value: '$nbSeries',
                           enable: [nbSeries > 1, true],
                           notify: (i) {
@@ -107,7 +89,7 @@ class CreateScreenState extends State<CreateScreen> {
                           },
                         ),
                         NumberInput(
-                          label: translate('serie duration'),
+                          label: 'serie duration'.i18n,
                           value: '$serieDuration sec.',
                           enable: [serieDuration > 1, true],
                           notify: (i) {
@@ -118,7 +100,7 @@ class CreateScreenState extends State<CreateScreen> {
                           },
                         ),
                         NumberInput(
-                          label: translate('number cycles'),
+                          label: 'number cycles'.i18n,
                           value: '$nbCycles',
                           enable: [nbCycles > 1, true],
                           notify: (i) {
@@ -129,7 +111,7 @@ class CreateScreenState extends State<CreateScreen> {
                           },
                         ),
                         NumberInput(
-                          label: translate('rest'),
+                          label: 'rest'.i18n,
                           value: '$rest sec.',
                           enable: [rest > 1, true],
                           separator: false,
@@ -153,15 +135,11 @@ class CreateScreenState extends State<CreateScreen> {
                                   serieDuration: serieDuration,
                                   nbCycles: nbCycles);
                               await t.create();
-                              Scaffold.of(ctx).showSnackBar(SnackBar(
-                                content: Text(translate('workout created',
-                                    args: {'name': name})),
-                              ));
                               Navigator.pushNamed(context, '/workouts');
                             }
                           },
                           icon: Icon(Icons.add),
-                          label: Text(translate('create')),
+                          label: Text('create'.i18n),
                         )
                       ],
                     ),
